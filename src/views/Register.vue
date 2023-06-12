@@ -10,8 +10,8 @@
           <h2 class="fw-bold mb-5">Đăng Ký</h2>
           <Form>
             <div class="form-outline mb-4 form-group">
-              <Field name="username" type="text" placeholder="Username" class="form-control" :rules="validateInput"/>
-              <ErrorMessage class='danger text-danger' name="username" />
+              <Field name="name" type="text" placeholder="Name" class="form-control" :rules="validateInput"/>
+              <ErrorMessage class='danger text-danger' name="name" />
             </div>
             <div class="form-outline mb-4 form-group">
               <Field name="email" type="email" id="form3Example3" placeholder="Email" class="form-control" :rules="validateEmail"/>
@@ -41,10 +41,9 @@ import {Field, Form, ErrorMessage} from 'vee-validate';
 
 
 export default {
-  name: 'Login',
+  name: 'Register',
   components: {
-    AuthHeader,
-    AuthFooter,Field, Form, ErrorMessage
+    AuthHeader, AuthFooter, Field, Form, ErrorMessage
   },
   data() {
     return {

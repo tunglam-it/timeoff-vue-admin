@@ -2,13 +2,18 @@ import {createRouter, createWebHistory} from "vue-router";
 import Register from './views/Register.vue';
 import Login from './views/Login.vue';
 import CreateForm from '../src/views/pages/Form/new.vue'
-import DefaultLayout from './layouts/DefaultLayout.vue'
+import Dashboard from './layouts/Dashboard.vue'
 
 const routes = [
     {
         path:'/',
-        name:'defaultLayout',
-        component: DefaultLayout
+        name:'dashboard',
+        component: Dashboard
+    },
+    {
+        path:'/form',
+        name:'form',
+        component: CreateForm
     },
     {
         path: '/register',
@@ -20,11 +25,7 @@ const routes = [
         name: 'login',
         component: Login
     },
-    {
-        path:'/form',
-        name:'form',
-        component: CreateForm
-    }
+    
 ];
 
 const router = createRouter({

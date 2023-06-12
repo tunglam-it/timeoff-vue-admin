@@ -10,8 +10,8 @@
           <h2 class="fw-bold mb-5">Đăng Nhập</h2>
           <Form>
             <div class="form-outline mb-4 form-group">
-              <Field type="text" name="username" placeholder="Username" class="form-control" :rules="validateInput" />
-              <ErrorMessage name="username"  class="danger text-danger"/>
+              <Field type="email" name="email" placeholder="Email" class="form-control" :rules="validateEmail" />
+              <ErrorMessage name="email"  class="danger text-danger"/>
             </div>
             <div class="form-outline mb-4 form-group">
               <Field type="password" name="password" placeholder="Password" class="form-control" :rules="validateInput" />
@@ -35,7 +35,7 @@ import AuthHeader from "../components/Auth/AuthHeader.vue";
 import {Field, Form, ErrorMessage} from 'vee-validate';
 
 export default {
-  name: 'Register',
+  name: 'Login',
   components: {AuthHeader, AuthFooter,Field, Form, ErrorMessage},
   data() {
     return {
@@ -50,7 +50,20 @@ export default {
         return 'This field is required';
       }
       return true
-    }
+    },
+    validateEmail(value) {
+      // if the field is empty
+      if (!value) {
+        return 'This field is required';
+      }
+      // if the field is not a valid email
+      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if (!regex.test(value)) {
+        return 'This field must be a valid email';
+      }
+      // All is good
+      return true;
+    },
   }
 }
 </script>
