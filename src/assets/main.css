@@ -1,0 +1,38 @@
+body,html{
+  height: 100%;
+  width: 100%;
+}
+#app{
+  height: 100%;
+}
+.footer{
+  background-color: rgb(87,78,78);
+  font-size: 15px;
+  display: flex;
+  width: 100%;
+  min-height: 60px;
+  justify-content: center;
+  align-items: center;
+}
+.height-86{
+  height: 86%!important;
+}
+.header-bg{
+  background-color: #2a303c;
+  height: 60px
+}
+.fs-09{
+  font-size: 0.9rem;
+}
+.bg-menu{
+  background-color: #2a303c;
+}
+.fs-2rem{
+  font-size: 1.5rem;
+}
+.sidebar-menu .sidebar-menu-item:hover{
+  background-color: #323a49;
+}
+.sidebar{
+  height: auto;
+}
