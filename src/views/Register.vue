@@ -3,15 +3,15 @@
     Đăng Nhập
   </AuthHeader>
   <!-- Section: Block Form -->
-  <section class="text-center d-flex align-items-center justify-content-center height-86">
+  <section class="text-center d-flex align-items-center justify-content-center height-80">
     <div class="card mx-4 mx-md-5">
       <div class="card-body py-5 px-md-5">
         <div class="row d-flex justify-content-center">
           <h2 class="fw-bold mb-5">Đăng Ký</h2>
           <Form>
             <div class="form-outline mb-4 form-group">
-              <Field name="username" type="text" placeholder="Username" class="form-control" :rules="validateInput"/>
-              <ErrorMessage class='danger text-danger' name="username" />
+              <Field name="name" type="text" placeholder="Name" class="form-control" :rules="validateInput"/>
+              <ErrorMessage class='danger text-danger' name="name" />
             </div>
             <div class="form-outline mb-4 form-group">
               <Field name="email" type="email" id="form3Example3" placeholder="Email" class="form-control" :rules="validateEmail"/>
@@ -30,21 +30,19 @@
     </div>
   </section>
   <!-- Section: Block Form -->
-  <AuthFooter />
+  <AppFooter />
 
 </template>
 
 <script>
-import AuthFooter from '../components/Auth/AuthFooter.vue'
 import AuthHeader from "../components/Auth/AuthHeader.vue";
 import {Field, Form, ErrorMessage} from 'vee-validate';
-
+import AppFooter from "../components/AppFooter.vue";
 
 export default {
-  name: 'Login',
+  name: 'Register',
   components: {
-    AuthHeader,
-    AuthFooter,Field, Form, ErrorMessage
+    AppFooter, AuthHeader , Field, Form, ErrorMessage
   },
   data() {
     return {

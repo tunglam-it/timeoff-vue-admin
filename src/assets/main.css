@@ -6,16 +6,15 @@ body,html{
   height: 100%;
 }
 .footer{
-  background-color: rgb(87,78,78);
-  font-size: 15px;
-  display: flex;
-  width: 100%;
-  min-height: 60px;
-  justify-content: center;
-  align-items: center;
+  position: sticky;
+  top: 100%;
+  background: rgb(87,78,78);
+  text-align: center;
+  color: #fff;
+  padding: 1rem;
 }
-.height-86{
-  height: 86%!important;
+.height-80{
+  height: 80%!important;
 }
 .header-bg{
   background-color: #2a303c;
@@ -30,9 +29,15 @@ body,html{
 .fs-2rem{
   font-size: 1.5rem;
 }
-.sidebar-menu .sidebar-menu-item:hover{
+.sidebar-menu-item:hover{
   background-color: #323a49;
 }
 .sidebar{
   height: auto;
+}
+.header-gray{
+  background-color: #d9d9d9;
+}
+.position-left-25{
+  left: -25px;
 }
