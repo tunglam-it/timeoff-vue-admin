@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <router-link class="navbar-brand fw-bold text-white" to="/">DevFast</router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon" style="color: white"></span>
+        <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -25,7 +25,7 @@
           <div class="dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Xin chào, Admin
           </div>
-          <ul class="dropdown-menu position-absolute" style="left: -25px">
+          <ul class="dropdown-menu position-absolute position-left-25">
             <li><router-link class="dropdown-item" to="/info">Thông tin tài khoản</router-link></li>
             <li><router-link class="dropdown-item" to="#">Đăng xuất</router-link></li>
           </ul>

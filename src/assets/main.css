@@ -6,22 +6,6 @@ body,html{
   height: 100%;
 }
 .footer{
-  /*background-color: rgb(87,78,78);*/
-  /*font-size: 15px;*/
-  /*display: flex;*/
-  /*width: 100%;*/
-  /*min-height: 60px;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
-
-  /*background-color: rgb(87,78,78);*/
-  /*font-size: 15px;*/
-  /*position: fixed;*/
-  /*left: 0;*/
-  /*bottom: 0;*/
-  /*width: 100%;*/
-  /*min-height: 60px;*/
-
   position: sticky;
   top: 100%;
   background: rgb(87,78,78);
@@ -53,4 +37,7 @@ body,html{
 }
 .header-gray{
   background-color: #d9d9d9;
+}
+.position-left-25{
+  left: -25px;
 }

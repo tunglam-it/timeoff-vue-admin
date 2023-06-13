@@ -39,7 +39,6 @@ import AuthHeader from "../components/Auth/AuthHeader.vue";
 import {Field, Form, ErrorMessage} from 'vee-validate';
 import AppFooter from "../components/AppFooter.vue";
 
-
 export default {
   name: 'Register',
   components: {

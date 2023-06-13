@@ -12,7 +12,6 @@ import FormDetail from '../../../components/Form/FormDetail.vue';
 export default {
   name: 'DetailForm',
   components: {AppFooter, AppHeader, FormDetail},
-
 }
 </script>
 

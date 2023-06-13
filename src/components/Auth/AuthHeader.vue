@@ -15,8 +15,5 @@ export default {
   props:{
     linksTo: "",
   },
-  methods:{
-
-  }
 }
 </script>
