@@ -15,5 +15,11 @@
           Thêm mới
         </router-link>
       </div>
+      <div class="p-4 sidebar-menu-item">
+        <i class="fa-solid fa-circle-info text-white"></i>
+        <router-link to="/detail" class="text-decoration-none text-white ms-4" style="font-size:0.85rem">
+          Chi tiết
+        </router-link>
+      </div>
     </div>
 </template>

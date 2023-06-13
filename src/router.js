@@ -6,6 +6,16 @@ import Dashboard from './layouts/Dashboard.vue'
 
 const routes = [
     {
+        path: '/register',
+        name: 'register',
+        component: Register
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
+    },
+    {
         path:'/',
         name:'dashboard',
         component: Dashboard
@@ -16,14 +26,9 @@ const routes = [
         component: CreateForm
     },
     {
-        path: '/register',
-        name: 'register',
-        component: Register
-    },
-    {
-        path: '/login',
-        name: 'login',
-        component: Login
+        path:'/detail',
+        name:'detail',
+        component: CreateForm
     },
     
 ];
