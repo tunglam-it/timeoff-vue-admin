@@ -14,7 +14,9 @@
             <router-link class="nav-link active text-white ms-3" to="/form">Thêm mới</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active text-white ms-3" to="/detail">Chi tiết</router-link>
+            <router-link class="nav-link active text-white ms-3" to="/detail">
+              Chi tiết <span class="badge text-bg-warning">4</span>
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link active text-white ms-3" to="/manage">Quản lý</router-link>
