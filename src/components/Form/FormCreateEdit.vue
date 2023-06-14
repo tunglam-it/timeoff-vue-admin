@@ -37,14 +37,14 @@
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Ngày bắt đầu:</label>
                 <div class="col-sm-10">
-                  <Field name='start_date' class="form-control" type="date" v-model="form.start_date" :rules="validateInput"/>
+                  <Field name='start_date' class="form-control" type="datetime-local" v-model="form.start_date" :rules="validateInput"/>
                   <ErrorMessage name="start_date"  class="danger text-danger"/>
                 </div>
               </div>
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Ngày kết thúc:</label>
                 <div class="col-sm-10">
-                  <Field name='end_date' class="form-control" type="date" v-model="form.end_date" :rules="validateInput"/>
+                  <Field name='end_date' class="form-control" type="datetime-local" v-model="form.end_date" :rules="validateInput"/>
                   <ErrorMessage name="end_date"  class="danger text-danger"/>
                 </div>
               </div>

@@ -11,7 +11,7 @@
           <Form>
             <div class="form-outline mb-4 form-group">
               <Field name="name" type="text" placeholder="Name" class="form-control" :rules="validateInput"/>
-              <ErrorMessage class='danger text-danger' name="name" />
+              <ErrorMessage class='danger text-danger text-start' name="name" />
             </div>
             <div class="form-outline mb-4 form-group">
               <Field name="email" type="email" id="form3Example3" placeholder="Email" class="form-control" :rules="validateEmail"/>

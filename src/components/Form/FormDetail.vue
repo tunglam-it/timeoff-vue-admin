@@ -6,10 +6,9 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 mb-2">
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Nhập tên để tìm kiếm" aria-label="Search">
-              <button class="btn btn-outline-success" type="button">Search</button>
             </form>
           </div>
           <div class="col-md-6">
@@ -40,43 +39,14 @@
               <td>Mark</td>
               <td>Otto</td>
               <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td>@fat</td>
-              <td>@fat</td>
-              <td>@fat</td>
-              <td>@fat</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td>@fat</td>
-              <td>@fat</td>
-              <td>@fat</td>
-              <td>@fat</td>
-              <td>@fat</td>
-            </tr><tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
+              <td>15-1-2023</td>
+              <td>16-1-2023</td>
+              <td>Đang chờ</td>
+              <td></td>
+              <td>
+                <button class="btn btn-sm btn-primary me-2">Sửa</button>
+                <button class="btn btn-sm btn-danger">Xoá</button>
+              </td>
             </tr>
           </tbody>
         </table>
