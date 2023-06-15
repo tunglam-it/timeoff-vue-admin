@@ -66,16 +66,9 @@ import { Field, Form, ErrorMessage } from 'vee-validate';
 
 export default {
   components: { Field, Form, ErrorMessage },
-  data(){
-    return {
-      form:{
-        title:null,
-        type:null,
-        reason:null,
-        start_date:null,
-        end_date:null
-      }
-    }
+  props:{
+    form:{},
+    isInsert:null
   },
   methods:{
     validateInput(value){
@@ -83,6 +76,13 @@ export default {
         return 'This field is required';
       }
       return true
+    },
+    handleSubmit(){
+      if(this.isInsert){
+        this.$emit("insert", this.form);
+      }else{
+        this.$emit("update", this.form);
+      }
     }
   }
 }

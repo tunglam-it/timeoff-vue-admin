@@ -2,9 +2,10 @@ import {createRouter, createWebHistory} from "vue-router";
 import Register from './views/Register.vue';
 import Login from './views/Login.vue';
 import CreateForm from '../src/views/pages/Form/new.vue';
+import EditForm from '../src/views/pages/Form/edit.vue';
 import DetailForm from '../src/views/pages/Form/detail.vue';
 import Dashboard from './layouts/Dashboard.vue'
-import ManageUser from "../src/views/pages/Form/manage.vue";
+import UserManage from "../src/views/pages/Form/manage.vue";
 import InfoAccount from "../src/views/pages/info.vue";
 
 const routes = [
@@ -24,9 +25,14 @@ const routes = [
         component: Dashboard
     },
     {
-        path:'/form',
-        name:'form',
+        path:'/create-form',
+        name:'create-form',
         component: CreateForm
+    },
+    {
+        path:'/edit-form/:id',
+        name:'edit-form',
+        component: EditForm
     },
     {
         path:'/detail',
@@ -36,7 +42,7 @@ const routes = [
     {
         path: '/manage',
         name: 'manage-user',
-        component: ManageUser
+        component: UserManage
     },
     {
         path: '/info',
