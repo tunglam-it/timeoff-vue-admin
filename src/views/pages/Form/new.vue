@@ -17,7 +17,13 @@ export default {
    components: { FormCreateEdit, AppFooter, AppHeader },
    data() {
       return {
-         form: {}
+         form: {
+            title:'',
+            type:'',
+            reason:'',
+            start_date:'',
+            end_date:''
+         }
       }
    },
    methods: {
@@ -28,7 +34,7 @@ export default {
       },
       InsertForm() {
          axiosClient.post('/leaves', this.form)
-            .then((res) => {
+           .then((res) => {
                this.$router.push('/detail')
             })
             .catch((error) => {
@@ -38,5 +44,3 @@ export default {
    }
 }
 </script>
-
-<style></style>
