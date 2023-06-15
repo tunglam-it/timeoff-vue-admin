@@ -17,7 +17,7 @@
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Loại:</label>
                 <div class="col-sm-10">
-                  <Field name='type' rows="5" v-model="form.type" class="form-control" as='select' :rules="validateInput">
+                  <Field name='type' v-model="form.type" class="form-control" as='select' :rules="validateInput">
                     <option>-- Hãy chọn 1 hình thức --</option>
                     <option value="1">Sức khoẻ</option>
                     <option value="2">Thai sản</option>
