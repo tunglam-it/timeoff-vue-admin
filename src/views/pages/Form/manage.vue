@@ -1,15 +1,21 @@
 <template>
   <AppHeader />
-  <FormManageUser />
+  <!-- <ManageUser /> -->
+  <ManageUserTable />
   <AppFooter />
 </template>
 
 <script>
 import AppHeader from "../../../components/AppHeader.vue";
 import AppFooter from "../../../components/AppFooter.vue";
-import FormManageUser from "../../../components/Form/FormManageUser.vue";
+import ManageUserTable from "../../../components/Admin/ManageUserTable.vue";
+// import ManageUser from "../../../components/Admin/ManageUser.vue";
 export default {
-  name:'ManageUser',
-  components: {FormManageUser, AppFooter, AppHeader}
+  name:'UserManage',
+  components: {
+    AppFooter,
+    AppHeader,
+    ManageUserTable
+}
 }
 </script>

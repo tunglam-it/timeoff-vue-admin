@@ -11,7 +11,7 @@
             <router-link class="nav-link active text-white ms-3" to="/">Trang chủ</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active text-white ms-3" to="/form">Thêm mới</router-link>
+            <router-link class="nav-link active text-white ms-3" to="/create-form">Thêm mới</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link active text-white ms-3" to="/detail">
