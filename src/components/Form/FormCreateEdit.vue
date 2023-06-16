@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="mt-3 mb-3">
-              Thời gian xin nghỉ phép là:  tiếng
+              Thời gian xin nghỉ phép là: {{totalTimeOff}}
             </div>
             <button class="btn btn-success mb-3" type="submit" @click.prevent="handleSubmit">
               Submit
@@ -57,8 +57,10 @@
 <script>
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import types from '../../leave_types/types.js';
+import calculateTime from '../../mixins/calculateTime.js';
 
 export default {
+  mixins:[ calculateTime ],
   components: { Field, Form, ErrorMessage },
   props: {
     form: {},
@@ -66,11 +68,9 @@ export default {
   },
   data() {
     return {
-      types: types
+      types: types,
+      totalTimeOff:totalTimeOff(this.form.start_date, this.form.end_date)
     }
-  },
-  computed: {
-    
   },
   methods: {
     /***
