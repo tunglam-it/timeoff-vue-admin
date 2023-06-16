@@ -18,7 +18,6 @@ export default {
    data() {
       return {
          form: {
-            title:'',
             type:'',
             reason:'',
             start_date:'',

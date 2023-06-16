@@ -32,7 +32,7 @@ const routes = [
     {
         path:'/edit-form/:id',
         name:'edit-form',
-        component: EditForm
+        component:EditForm
     },
     {
         path:'/detail',
