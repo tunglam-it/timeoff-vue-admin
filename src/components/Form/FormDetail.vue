@@ -116,16 +116,11 @@
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import types from '../../leave_types/types.js';
 import axiosClient from '../../axiosClient.js';
-import calculateTime from '../../mixins/calculateTime.js'
 
 export default {
-  mixins:[calculateTime],
   components: { Field, Form, ErrorMessage },
   props:{
       leaves: {}
-  },
-  computed:{
-
   },
   methods: {
     validateInput(value) {
