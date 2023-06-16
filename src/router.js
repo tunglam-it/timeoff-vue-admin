@@ -6,6 +6,7 @@ import EditForm from '../src/views/pages/Form/edit.vue';
 import DetailForm from '../src/views/pages/Form/detail.vue';
 import Dashboard from './layouts/Dashboard.vue'
 import UserManage from "../src/views/pages/Form/manage.vue";
+import ManageRoles from '../src/components/Admin/ManageRoles.vue'
 import InfoAccount from "../src/views/pages/info.vue";
 
 const routes = [
@@ -43,6 +44,11 @@ const routes = [
         path: '/manage',
         name: 'manage-user',
         component: UserManage
+    },
+    {
+        path:'/manage/:id',
+        name:'manage-user-role',
+        component: ManageRoles
     },
     {
         path: '/info',

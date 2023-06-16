@@ -18,10 +18,10 @@ export default {
    data() {
       return {
          form: {
-            type:'',
-            reason:'',
-            start_date:'',
-            end_date:''
+            type: null,
+            reason: null,
+            start_date: null,
+            end_date: null
          }
       }
    },
@@ -32,8 +32,13 @@ export default {
          return true;
       },
       InsertForm() {
-         axiosClient.post('/leaves', this.form)
-           .then((res) => {
+         axiosClient.post('/leaves', {
+            headers: {
+               Authorization: 'Bearer ' + localStorage.getItem('token')
+               // Thêm khoảng trắng giữa 'Bearer' và token
+            }
+         }, this.form)
+            .then((res) => {
                this.$router.push('/detail')
             })
             .catch((error) => {

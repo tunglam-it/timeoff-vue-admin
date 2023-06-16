@@ -1,7 +1,7 @@
 <template>
-  <AppHeader/>
-  <FormDetail :leaves="leaves"/>
-  <AppFooter/>
+  <AppHeader />
+  <FormDetail :leaves="leaves" />
+  <AppFooter />
 </template>
 
 <script>
@@ -12,10 +12,10 @@ import axiosClient from '../../../axiosClient.js';
 
 export default {
   name: 'DetailForm',
-  components: {AppFooter, AppHeader, FormDetail},
-  data(){
+  components: { AppFooter, AppHeader, FormDetail },
+  data() {
     return {
-      leaves:{
+      leaves: {
 
       }
     }
@@ -23,21 +23,19 @@ export default {
   created() {
     this.getAllLeaves()
   },
-  methods:{
-    getAllLeaves(){
+  methods: {
+    getAllLeaves() {
       axiosClient.get('/leaves')
-      .then((res) => {
-        // console.log(res.data);
-        this.leaves = res.data.data;  
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+        .then((res) => {
+          // console.log(res.data);
+          this.leaves = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

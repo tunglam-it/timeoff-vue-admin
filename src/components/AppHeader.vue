@@ -2,7 +2,9 @@
   <nav class="navbar navbar-expand-lg bg-menu">
     <div class="container-fluid">
       <router-link class="navbar-brand fw-bold text-white" to="/">DevFast</router-link>
-      <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -25,11 +27,11 @@
 
         <div class="dropdown">
           <div class="dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Xin chào, Admin
+            Xin chào, {{ this.user.name }}
           </div>
           <ul class="dropdown-menu position-absolute position-left-25">
             <li><router-link class="dropdown-item" to="/info">Thông tin tài khoản</router-link></li>
-            <li><router-link class="dropdown-item" to="#">Đăng xuất</router-link></li>
+            <li><router-link class="dropdown-item" @click="logout" to="#">Đăng xuất</router-link></li>
           </ul>
         </div>
       </div>
@@ -38,7 +40,34 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  name: 'AppHeader'
+  name: 'AppHeader',
+  data() {
+    return {
+      user: ""
+    }
+  },
+  created() {
+    axios.get("http://127.0.0.1:8000/api/profile", {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+        // Thêm khoảng trắng giữa 'Bearer' và token
+      }
+    }).then((res) => {
+      this.user = res.data;
+      }).catch(() => {
+      localStorage.removeItem('token');
+      this.$router.push('/login')
+
+    });
+
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.$router.push('/login')
+    }
+  }
 }
 </script>

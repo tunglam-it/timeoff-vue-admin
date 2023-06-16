@@ -13,12 +13,12 @@
           </div>
           <div class="col-md-4">
             <form class="d-flex mb-2">
-              <input class="form-control me-2" type="date" >
+              <input class="form-control me-2" type="date">
             </form>
           </div>
           <div class="col-md-4">
             <form class="d-flex">
-              <select class="form-control me-2" type="date" >
+              <select class="form-control me-2" type="date">
                 <option>-- Chọn 1 option --</option>
                 <option value="1">Chấp thuận</option>
                 <option value="2">Từ chối</option>
@@ -44,9 +44,9 @@
             </tr>
           </thead>
           <tbody>
-              <tr>
-                <td colspan="10" v-if="leaves.length<0">Chưa có bản ghi nào</td>
-              </tr>
+            <tr>
+              <td colspan="10" v-if="leaves.length < 0">Chưa có bản ghi nào</td>
+            </tr>
             <tr v-for="leave in leaves">
               <th scope="row">{{ leave.id }}</th>
               <th scope="row">{{ leave.employees }}</th>
@@ -56,7 +56,7 @@
               <td>{{ leave.end_date }}</td>
               <td>
                 <button type="button" class="btn btn-sm" style="min-width: 100px;"
-                  :class="{ 'btn-warning': leave.status==3, 'btn-success': leave.status==1, 'btn-danger': leave.status==2 }"
+                  :class="{ 'btn-warning': leave.status == 3, 'btn-success': leave.status == 1, 'btn-danger': leave.status == 2 }"
                   data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
                   <span class="text-white fw-bold">{{ checkStatus(leave.status) }}</span>
                 </button>
@@ -75,41 +75,41 @@
     </div>
   </div>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" v-for="leave in leaves">
-    <div v-if="leave.status==3">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    v-for="leave in leaves">
+    <div v-if="leave.status == 3">
       <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Trạng thái</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Trạng thái</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <Form>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="col-form-label">Hành động:</label>
+                <Field name="status" class="form-control" as='select' :rules="validateInput">
+                  <option value="1">Chấp thuận</option>
+                  <option value="2">Từ chối</option>
+                </Field>
+                <ErrorMessage name="status" class="danger text-danger" />
+              </div>
+              <div class="mb-3">
+                <label class="col-form-label">Lý do từ chối:</label>
+                <textarea class="form-control" id="message-text"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-sm btn-success">Submit</button>
+            </div>
+          </Form>
         </div>
-        <Form>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label class="col-form-label">Hành động:</label>
-              <Field name="status" class="form-control" as='select' :rules="validateInput">
-                <option value="1">Chấp thuận</option>
-                <option value="2">Từ chối</option>
-              </Field>
-              <ErrorMessage name="status" class="danger text-danger" />
-            </div>
-            <div class="mb-3">
-              <label class="col-form-label">Lý do từ chối:</label>
-              <textarea class="form-control" id="message-text"></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-sm btn-success">Submit</button>
-          </div>
-        </Form>
       </div>
     </div>
-    </div>
-    
+
 
   </div>
-
 </template>
 
 <script>
@@ -119,8 +119,8 @@ import axiosClient from '../../axiosClient.js';
 
 export default {
   components: { Field, Form, ErrorMessage },
-  props:{
-      leaves: {}
+  props: {
+    leaves: {}
   },
   methods: {
     validateInput(value) {
@@ -134,12 +134,12 @@ export default {
       else if (status == 2) { return 'Từ chối' }
       else return "Đang chờ"
     },
-    DeleteItem(id){
-      axiosClient.delete('/leaves/'+id)
-      .then(()=>{this.$router.push('/')})
-      .catch((error)=>{console.log(error);})
+    DeleteItem(id) {
+      axiosClient.delete('/leaves/' + id)
+        .then(() => { this.$router.push('/') })
+        .catch((error) => { console.log(error); })
     },
-    getType(id){
+    getType(id) {
       const name = types.find((data) => data.id == id);
       return name ? name.name : "";
     }

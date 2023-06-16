@@ -9,17 +9,21 @@
         <div class="row d-flex justify-content-center">
           <h2 class="fw-bold mb-5">Đăng Nhập</h2>
           <Form>
-            <div class="form-outline mb-4 form-group">
-              <Field type="email" name="email" placeholder="Email" class="form-control" :rules="validateEmail" />
-              <ErrorMessage name="email" class="danger text-danger"/>
-            </div>
-            <div class="form-outline mb-4 form-group">
-              <Field type="password" name="password" placeholder="Password" class="form-control" :rules="validateInput" />
-              <ErrorMessage name="password"  class="danger text-danger"/>
-            </div>
-            <button type="submit" class="btn btn-primary mb-4">
-              Đăng Nhập
-            </button>
+            <form @submit.prevent="handleSubmit">
+              <div class="form-outline mb-4 form-group">
+                <Field type="email" name="email" v-model="email" placeholder="Email" class="form-control"
+                  :rules="validateEmail" />
+                <ErrorMessage name="email" class="danger text-danger" />
+              </div>
+              <div class="form-outline mb-4 form-group">
+                <Field type="password" name="password" v-model="password" placeholder="Password" class="form-control"
+                  :rules="validateInput" />
+                <ErrorMessage name="password" class="danger text-danger" />
+              </div>
+              <button type="submit" class="btn btn-primary mb-4">
+                Đăng Nhập
+              </button>
+            </form>
           </Form>
         </div>
       </div>
@@ -31,21 +35,36 @@
 
 <script>
 import AuthHeader from "../components/Auth/AuthHeader.vue";
-import {Field, Form, ErrorMessage} from 'vee-validate';
+import { Field, Form, ErrorMessage } from 'vee-validate';
 import AppFooter from "../components/AppFooter.vue";
+import axios from "axios";
 
 export default {
   name: 'Login',
-  components: {AppFooter, AuthHeader,Field, Form, ErrorMessage},
+  components: { AppFooter, AuthHeader, Field, Form, ErrorMessage },
   data() {
     return {
-      username: '',
+      email: "",
       password: '',
       linksTo: 'register'
     }
   },
-  methods:{
-     validateInput(value){
+  methods: {
+    handleSubmit() {
+      axios
+        .post("http://127.0.0.1:8000/api/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          localStorage.setItem("token", response.data.user_data);
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    validateInput(value) {
       if (!value) {
         return 'This field is required';
       }

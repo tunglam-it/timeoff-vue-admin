@@ -1,8 +1,9 @@
 <template>
+  <AppHeader />
   <div class="col-md-8 col-sm-12 p-0 mt-4 my-3 mx-4 mx-auto">
     <div class="card mx-2">
       <div class="card-header">
-        <h4>THÔNG TIN TÀI KHOẢN</h4>
+        <h4>Thay đổi phân quyền</h4>
       </div>
       <div class="card-body p-0">
         <div class="mx-4 my-2">
@@ -20,22 +21,15 @@
               </div>
             </div>
             <div class="row mb-3">
-              <label class="col-sm-2 col-form-label">Mật khẩu cũ:</label>
+              <label class="col-sm-2 col-form-label">Phân quyền:</label>
               <div class="col-sm-10">
-                <Field name='oldPassword' type="password" v-model="user.oldPassword" class="form-control"
-                  :rules="validateInput" />
-                <ErrorMessage name="oldPassword" class="danger text-danger" />
+                <Field name='roles' as="select" v-model="user.roles" class="form-control">
+                  <option value="1">Nhân viên</option>
+                  <option value="2">Quản lý</option>
+                </Field>
               </div>
             </div>
-            <div class="row mb-3">
-              <label class="col-sm-2 col-form-label">Mật khẩu mới:</label>
-              <div class="col-sm-10">
-                <Field name='password' type="password" v-model="user.password" class="form-control"
-                  :rules="validateInput" />
-                <ErrorMessage name="password" class="danger text-danger" />
-              </div>
-            </div>
-            <button class="btn btn-success mb-3" type="button" @click="submit">
+            <button class="btn btn-success mb-3" type="button" @click="submit(user.id)">
               Submit
             </button>
           </Form>
@@ -43,47 +37,44 @@
       </div>
     </div>
   </div>
+  <AppFooter />
 </template>
 
 <script>
 import { Field, Form, ErrorMessage } from 'vee-validate';
-import axios from "axios";
+import AppFooter from '../AppFooter.vue';
+import AppHeader from '../AppHeader.vue';
+import axiosClient from '../../axiosClient';
 export default {
-  components: { Field, Form, ErrorMessage },
+  name: 'ManageRoles',
+  components: { Field, Form, ErrorMessage, AppFooter, AppHeader },
   data() {
     return {
       user: {
-        oldPassword: "",
-        password: "",
+        roles: ''
       },
     }
   },
   created() {
-    axios.get("http://127.0.0.1:8000/api/profile", {
+    axiosClient.get("/profile", {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
-        // Thêm khoảng trắng giữa 'Bearer' và token
       }
     }).then((res) => {
       this.user.name = res.data.name;
       this.user.email = res.data.email;
     }).catch(() => {
-      localStorage.removeItem('token');
-      this.$router.push('/login')
-      location.reload();
+      this.$router.push('/manage')
     });
   },
   methods: {
-    submit() {
-      axios.post("http://127.0.0.1:8000/api/change", this.user, {
+    submit(id) {
+      axiosClient.put('/post/' + id, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
-      }).then(() => {
-        console.log('Change password successfully');
-      }).catch(() => {
-        console.log('Change password failed');
-      });
+      }).then((res) => this.$router.push('/manage'))
+        .catch((error) => console.log(error))
     },
     validateInput(value) {
       if (!value) {

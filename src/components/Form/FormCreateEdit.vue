@@ -12,7 +12,7 @@
               <div class="col-sm-10">
                 <Field name='type' v-model="form.type" class="form-control" as='select' :rules="validateInput">
                   <option>-- Hãy chọn 1 hình thức --</option>
-                  <option v-for="type in types" :value="type.id" :key="type.id">{{ type.name }}</option>
+                  <option v-for="item in types" :value="item.id">{{ item.name }}</option>
                 </Field>
                 <ErrorMessage name="type" class="danger text-danger" />
               </div>
@@ -41,9 +41,6 @@
                 <ErrorMessage name="end_date" class="danger text-danger" />
               </div>
             </div>
-            <div class="mt-3 mb-3">
-              Thời gian xin nghỉ phép là: {{totalTimeOff}}
-            </div>
             <button class="btn btn-success mb-3" type="submit" @click.prevent="handleSubmit">
               Submit
             </button>
@@ -57,10 +54,8 @@
 <script>
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import types from '../../leave_types/types.js';
-import calculateTime from '../../mixins/calculateTime.js';
 
 export default {
-  mixins:[ calculateTime ],
   components: { Field, Form, ErrorMessage },
   props: {
     form: {},
@@ -69,7 +64,6 @@ export default {
   data() {
     return {
       types: types,
-      totalTimeOff:totalTimeOff(this.form.start_date, this.form.end_date)
     }
   },
   methods: {
