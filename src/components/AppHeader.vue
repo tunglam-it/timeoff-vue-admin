@@ -21,7 +21,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active text-white ms-3" to="/manage">Quản lý</router-link>
+            <router-link v-if="this.user.roles==3" class="nav-link active text-white ms-3" to="/manage">Quản lý</router-link>
           </li>
         </ul>
 
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axiosClient from "../axiosClient.js";
 export default {
   name: 'AppHeader',
   data() {
@@ -49,24 +49,23 @@ export default {
     }
   },
   created() {
-    axios.get("http://127.0.0.1:8000/api/profile", {
+    axiosClient.get("/profile", {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token')
-        // Thêm khoảng trắng giữa 'Bearer' và token
       }
     }).then((res) => {
       this.user = res.data;
       }).catch(() => {
-      localStorage.removeItem('token');
-      this.$router.push('/login')
 
     });
 
   },
+    
   methods: {
     logout() {
       localStorage.removeItem('token');
       this.$router.push('/login')
+      window.location.reload()
     }
   }
 }

@@ -41,6 +41,22 @@
                 <ErrorMessage name="end_date" class="danger text-danger" />
               </div>
             </div>
+            <div class="row mb-3" v-if="(this.roles==3||this.roles==2)">
+              <label class="col-sm-2 col-form-label">Phê duyệt:</label>
+              <div class="col-sm-10">
+                <Field name='status' class="form-control" as="select" v-model="form.status"
+                  :rules="validateInput" >
+                  <option value="1">Chấp thuận</option>
+                  <option value="2">Từ chối</option>
+                </Field>
+              </div>
+            </div>
+            <div class="row mb-3" v-if="(this.roles==3||this.roles==2)&&form.status==2">
+              <label class="col-sm-2 col-form-label">Lý do từ chối:</label>
+              <div class="col-sm-10">
+                <Field name='comment' rows="5" v-model="form.comment" class="form-control" as='textarea'></Field>
+              </div>
+            </div>
             <button class="btn btn-success mb-3" type="submit" @click.prevent="handleSubmit">
               Submit
             </button>
@@ -59,7 +75,8 @@ export default {
   components: { Field, Form, ErrorMessage },
   props: {
     form: {},
-    isInsert: null
+    isInsert: null,
+    roles:''
   },
   data() {
     return {

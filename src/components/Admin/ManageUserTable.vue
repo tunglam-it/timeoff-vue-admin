@@ -8,7 +8,6 @@
         <div class="row">
           <div class="col-md-6 mb-2">
             <form class="d-flex" role="search">
-
               <input class="form-control me-2" v-model="query" type="search" placeholder="Nhập tên để tìm kiếm"
                 @change="SearchBlog" aria-label="Search">
             </form>
@@ -26,14 +25,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="form in forms" :key="form.id">
+            <tr v-for="form in forms" :key="forms.id">
               <th scope="row">{{ form.id }}</th>
               <td>{{ form.name }}</td>
               <td>{{ convert(form.roles) }}</td>
               <td>
-                <router-link :to="{ name: 'manage-user-role', params: { id: form.id } }">
+                <!-- <router-link :to="{ name: 'manage-user-role', params: { id: form.id } }"> -->
                   <button class="btn btn-sm me-2 btn-primary">Sửa</button>
-                </router-link>
+                <!-- </router-link> -->
                 <button class="btn btn-sm btn-danger" @click="DeleteUser(form.id)">Xoá</button>
               </td>
             </tr>
@@ -50,41 +49,24 @@ import AppFooter from '../AppFooter.vue';
 import AppHeader from '../AppHeader.vue';
 
 export default {
+
   components: { AppHeader, AppFooter },
   data() {
     return {
-      forms: {},
-      query: ''
+      forms: [],
     }
   },
   created() {
-    this.ListBlog(),
-    this.searchBlog();
+      this.searchBlog()
   },
   methods: {
     convert(role) {
-      if (role == 1) {
+      if (role == '1') {
         return 'Nhân viên'
       }
-      else {
+      else if(role == '2') {
         return 'Quản lý'
       }
-    },
-    ListBlog() {
-      axiosClient
-        .get("/post", {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
-        })
-        .then((response) => {
-          this.forms = response.data.data;
-
-
-        })
-        .catch((e) => {
-          this.errors.push(e);
-        });
     },
     /**
      * searchBlog
@@ -93,21 +75,32 @@ export default {
      */
     searchBlog(query = "") {
       axiosClient
-        .get(`/leaves?param=${query}`)
-        .then((res) => (this.forms = res.data.data))
+        .get(`/get-users?param=${query}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+        .then((res) => (this.forms = res.data))
         .catch((err) => console.log(err));
     },
 
-    DeleteUser(id){
-      axiosClient.delete('/delete/'+id, {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
-        })
-        .then(()=>this.$router.push('/manage'))
-        .catch((err)=>console.log(err))
-    }
-
+    DeleteUser(id) {
+      axiosClient.delete('/delete/' + id, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      })
+        .then(() => this.$router.push('/manage'))
+        .catch((err) => console.log(err))
+    },
+    redirect(user) {
+      if (user === 1 || user === 2) {
+        this.$router.push('/')
+      }
+      else if (user === 3) {
+        this.$router.push('/manage')
+      }
+    },
   }
 }
 </script>
