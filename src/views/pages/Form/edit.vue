@@ -1,8 +1,9 @@
 <template>
    <AppHeader />
-   <FormCreateEdit :form="form" :isInsert="checkParamId()" @update="UpdateItem">
+   <FormCreateEdit :form="form" :isInsert="checkParamId()" @update="UpdateItem" :roles='roles'>
       <h5>Sửa đơn xin nghỉ phép</h5>
    </FormCreateEdit>
+   {{ this.form }}
    <AppFooter />
 </template>
  
@@ -17,27 +18,49 @@ export default {
    components: { FormCreateEdit, AppFooter, AppHeader },
    data() {
       return {
-         form: {}
+         form: {},
+         token: localStorage.getItem('token'),
+         roles: ''
       }
    },
-   created(){
-      this.getDataLeave(this.$route.params.id)
+   created() {
+      this.getDataLeave(this.$route.params.id),
+         this.getUser()
    },
-   methods:{
+   methods: {
       checkParamId() {
          const id = this.$route.params.id;
          if (id) return false;
          return true;
       },
-      getDataLeave(id){
-         axiosClient.get('/leaves/'+id)
-         .then((res)=>{this.form = res.data})
-         .catch((error)=>console.log(error))
+      getDataLeave(id) {
+         axiosClient.get('/leaves/' + id, {
+            headers: {
+               Authorization: 'Bearer ' + this.token
+            }
+         })
+            .then((res) => { this.form = res.data })
+            .catch((error) => console.log(error))
       },
-      UpdateItem(){
-         axiosClient.put(`/leaves/${this.$route.params.id}`, this.form)
-         .then(()=>this.$router.push('/detail'))
-         .catch((error)=>console.log(error))
+      UpdateItem() {
+         axiosClient.put(`/leaves/${this.$route.params.id}`, {
+            headers: {
+               Authorization: 'Bearer ' + this.token
+            }
+         }, this.form)
+            .then(() => { 
+               this.$router.push('/detail') 
+               
+            })
+            .catch((error) => console.log(error))
+      },
+      getUser() {
+         axiosClient.get('/profile', {
+            headers: {
+               Authorization: 'Bearer ' + this.token
+            }
+         })
+            .then((res) => { this.roles = res.data.roles })
       }
    }
 }

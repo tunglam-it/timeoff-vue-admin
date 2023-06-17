@@ -1,6 +1,6 @@
 <template>
   <AppHeader />
-  <FormDetail :leaves="leaves" />
+  <FormDetail :leaves="leaves" :roles="roles" />
   <AppFooter />
 </template>
 
@@ -15,25 +15,37 @@ export default {
   components: { AppFooter, AppHeader, FormDetail },
   data() {
     return {
-      leaves: {
-
-      }
+      leaves: {},
+      token: localStorage.getItem('token'),
+      roles:''
     }
   },
   created() {
-    this.getAllLeaves()
+    this.getAllLeaves(),
+    this.getUser()
   },
   methods: {
     getAllLeaves() {
-      axiosClient.get('/leaves')
+      axiosClient.get('/leaves',{
+            headers: {
+               Authorization: 'Bearer ' + this.token
+            }
+         })
         .then((res) => {
-          // console.log(res.data);
           this.leaves = res.data.data;
         })
         .catch((error) => {
           console.log(error);
         })
-    }
+    },
+    getUser(){
+         axiosClient.get('/profile',{
+            headers: {
+               Authorization: 'Bearer ' + this.token
+            }
+         })
+         .then((res)=>{this.roles = res.data})
+      }
   }
 }
 </script>

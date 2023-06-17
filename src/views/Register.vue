@@ -63,8 +63,6 @@ axios.post("http://127.0.0.1:8000/api/register",{
   password:this.password
 
 }).then(response => {
- 
-  
   this.$router.push('/login')
 })
  },

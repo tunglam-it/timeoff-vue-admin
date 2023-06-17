@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Register from './views/Register.vue';
 import Login from './views/Login.vue';
 import CreateForm from '../src/views/pages/Form/new.vue';
@@ -8,52 +8,53 @@ import Dashboard from './layouts/Dashboard.vue'
 import UserManage from "../src/views/pages/Form/manage.vue";
 import ManageRoles from '../src/components/Admin/ManageRoles.vue'
 import InfoAccount from "../src/views/pages/info.vue";
-
+const isAuthenticated = window.localStorage.getItem('token')
 const routes = [
     {
         path: '/register',
         name: 'register',
-        component: Register
+        component: !isAuthenticated ? Register : Dashboard
     },
     {
         path: '/login',
         name: 'login',
-        component: Login
+        component: !isAuthenticated ? Login : Dashboard
     },
     {
-        path:'/',
-        name:'dashboard',
-        component: Dashboard
+        path: '/',
+        name: 'dashboard',
+        component: isAuthenticated ? Dashboard : Login
+    },
+
+    {
+        path: '/create-form',
+        name: 'create-form',
+        component: isAuthenticated ? CreateForm :Login
     },
     {
-        path:'/create-form',
-        name:'create-form',
-        component: CreateForm
+        path: '/edit-form/:id',
+        name: 'edit-form',
+        component: isAuthenticated ? EditForm :Login
     },
     {
-        path:'/edit-form/:id',
-        name:'edit-form',
-        component:EditForm
-    },
-    {
-        path:'/detail',
-        name:'detail',
-        component: DetailForm
+        path: '/detail',
+        name: 'detail',
+        component: isAuthenticated ? DetailForm : Login
     },
     {
         path: '/manage',
         name: 'manage-user',
-        component: UserManage
+        component: isAuthenticated ? UserManage : Login
     },
     {
-        path:'/manage/:id',
-        name:'manage-user-role',
-        component: ManageRoles
+        path: '/manage/:id',
+        name: 'manage-user-role',
+        component: isAuthenticated ? ManageRoles : Login
     },
     {
         path: '/info',
         name: 'account-info',
-        component: InfoAccount
+        component: isAuthenticated ? InfoAccount : Login
     }
 ];
 
