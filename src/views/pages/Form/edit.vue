@@ -3,7 +3,6 @@
    <FormCreateEdit :form="form" :isInsert="checkParamId()" @update="UpdateItem" :roles='roles'>
       <h5>Sửa đơn xin nghỉ phép</h5>
    </FormCreateEdit>
-   {{ this.form }}
    <AppFooter />
 </template>
  
@@ -25,14 +24,24 @@ export default {
    },
    created() {
       this.getDataLeave(this.$route.params.id),
-         this.getUser()
+      this.getUser()
    },
    methods: {
+      /**
+       * check param id to update or insert
+       * @returns boolean
+       */
       checkParamId() {
          const id = this.$route.params.id;
          if (id) return false;
          return true;
       },
+
+      /**
+       * call api to get leaves data
+       * @param id
+       * @returns mixed
+       */
       getDataLeave(id) {
          axiosClient.get('/leaves/' + id, {
             headers: {
@@ -42,18 +51,29 @@ export default {
             .then((res) => { this.form = res.data })
             .catch((error) => console.log(error))
       },
+
+      /**
+       * call api to update leave form
+       * @returns mixed
+       */
       UpdateItem() {
-         axiosClient.put(`/leaves/${this.$route.params.id}`, {
+         axiosClient.put(`/leaves/${this.$route.params.id}`, 
+         {
             headers: {
-               Authorization: 'Bearer ' + this.token
+               Authorization: 'Bearer ' + localStorage.getItem('token')
             }
-         }, this.form)
+         }, 
+         this.form)
             .then(() => { 
                this.$router.push('/detail') 
-               
             })
             .catch((error) => console.log(error))
       },
+
+      /**
+       * get logged in user information
+       * @returns mixed
+       */
       getUser() {
          axiosClient.get('/profile', {
             headers: {

@@ -25,14 +25,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="form in forms" :key="forms.id">
+            <tr v-for="form in forms">
               <th scope="row">{{ form.id }}</th>
               <td>{{ form.name }}</td>
               <td>{{ convert(form.roles) }}</td>
               <td>
-                <!-- <router-link :to="{ name: 'manage-user-role', params: { id: form.id } }"> -->
+                <router-link :to="{ name: 'manage-user-role', params: { id: form.id } }">
                   <button class="btn btn-sm me-2 btn-primary">Sửa</button>
-                <!-- </router-link> -->
+                </router-link>
                 <button class="btn btn-sm btn-danger" @click="DeleteUser(form.id)">Xoá</button>
               </td>
             </tr>
@@ -41,6 +41,7 @@
       </div>
     </div>
   </div>
+  {{ this.forms }}
 </template>
 
 <script>
@@ -60,6 +61,12 @@ export default {
       this.searchBlog()
   },
   methods: {
+
+    /**
+     * convert index role into string role 
+     * @param role 
+     * @returns string
+     */
     convert(role) {
       if (role == '1') {
         return 'Nhân viên'
@@ -80,10 +87,15 @@ export default {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       })
-        .then((res) => (this.forms = res.data))
+        .then((res) => (this.forms = res.data.data))
         .catch((err) => console.log(err));
     },
 
+    /**
+     * call api to delete user
+     * @param id 
+     * @returns mixed
+     */
     DeleteUser(id) {
       axiosClient.delete('/delete/' + id, {
         headers: {
@@ -92,14 +104,6 @@ export default {
       })
         .then(() => this.$router.push('/manage'))
         .catch((err) => console.log(err))
-    },
-    redirect(user) {
-      if (user === 1 || user === 2) {
-        this.$router.push('/')
-      }
-      else if (user === 3) {
-        this.$router.push('/manage')
-      }
     },
   }
 }

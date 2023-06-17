@@ -8,24 +8,31 @@
       <div class="card-body py-5 px-md-5">
         <div class="row d-flex justify-content-center">
           <h2 class="fw-bold mb-5">Đăng Ký</h2>
-          <Form>
-            <form @submit.prevent="handleRegister">
+          <Form @submit="handleRegister">
             <div class="form-outline mb-4 form-group">
-              <Field name="name" v-model="name" type="text" placeholder="Name" class="form-control" :rules="validateInput"/> 
+              <Field name="name" v-model="name" type="text" placeholder="Name" class="form-control"
+                :rules="validateInput" />
               <ErrorMessage class='danger text-danger' name="name" />
             </div>
             <div class="form-outline mb-4 form-group">
-              <Field name="email" v-model="email" type="email" id="form3Example3" placeholder="Email" class="form-control" :rules="validateEmail"/>
+              <Field name="email" v-model="email" type="email" id="form3Example3" placeholder="Email" class="form-control"
+                :rules="validateEmail" />
               <ErrorMessage class='danger text-danger' name="email" />
             </div>
             <div class="form-outline mb-4 form-group">
-              <Field name="password" v-model="password" type="password" placeholder="Password" class="form-control" :rules="validateInput"/>
-              <ErrorMessage class='danger text-danger' name="password"/>
+              <Field name="password" v-model="password" type="password" placeholder="Password" class="form-control"
+                :rules="validateInput" />
+              <ErrorMessage class='danger text-danger' name="password" />
             </div>
-            <button type="submit" class="btn btn-success mb-4">
+            <div class="form-outline mb-4 form-group">
+              <Field name="confirm_password" v-model="confirm_password" type="password" placeholder="Retype Password"
+                class="form-control" :rules="validateInput" />
+              <ErrorMessage class='danger text-danger' name="confirm_password" />
+              <div class="text-danger" v-if="passwordMatchError">Password must match</div>
+            </div>
+            <button type="submit" class="btn btn-success mb-4" >
               Đăng Ký
             </button>
-            </form>
           </Form>
         </div>
       </div>
@@ -33,40 +40,56 @@
   </section>
   <!-- Section: Block Form -->
   <AppFooter />
-
 </template>
 
 <script>
 import AuthHeader from "../components/Auth/AuthHeader.vue";
-import {Field, Form, ErrorMessage} from 'vee-validate';
+import { Field, Form, ErrorMessage } from 'vee-validate';
 import AppFooter from "../components/AppFooter.vue";
 import axios from "axios";
 
 export default {
   name: 'Register',
   components: {
-    AppFooter, AuthHeader , Field, Form, ErrorMessage
+    AppFooter, AuthHeader, Field, Form, ErrorMessage
   },
   data() {
     return {
       name: '',
       password: '',
+      confirm_password: '',
       email: '',
       linksTo: 'login'
     }
   },
-  methods:{
-    handleRegister(){
-axios.post("http://127.0.0.1:8000/api/register",{
-  email:this.email,
-  name:this.name,
-  password:this.password
+  computed: {
+    passwordMatchError() {
+      return this.password !== this.confirm_password;
+    }
+  },
+  methods: {
+    /***
+     * Register new User
+     */
+    handleRegister() {
+      if (this.passwordMatchError) {
+        alert('Passwords must match');
+        return;
+      }
+      axios.post("http://127.0.0.1:8000/api/register", {
+        email: this.email,
+        name: this.name,
+        password: this.password
 
-}).then(response => {
-  this.$router.push('/login')
-})
- },
-     validateEmail(value) {
+      }).then(response => {
+        this.$router.push('/login')
+      })
+    },
+
+    /***
+     * Validate email
+     */
+    validateEmail(value) {
       // if the field is empty
       if (!value) {
         return 'This field is required';
@@ -79,7 +102,18 @@ axios.post("http://127.0.0.1:8000/api/register",{
       // All is good
       return true;
     },
-    validateInput(value){
+
+    /**
+     * Validate input value
+     * @param value 
+     */
+    validateInput(value) {
+      if (!value) {
+        return 'This field is required';
+      }
+      return true
+    },
+    validateConfirmPassword(value) {
       if (!value) {
         return 'This field is required';
       }

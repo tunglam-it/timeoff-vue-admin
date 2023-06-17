@@ -17,11 +17,12 @@
           </li>
           <li class="nav-item">
             <router-link class="nav-link active text-white ms-3" to="/detail">
-              Chi tiết <span class="badge text-bg-warning">4</span>
+              Chi tiết
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="this.user.roles==3" class="nav-link active text-white ms-3" to="/manage">Quản lý</router-link>
+            <router-link v-if="this.user.roles == 3" class="nav-link active text-white ms-3" to="/manage">Quản
+              lý</router-link>
           </li>
         </ul>
 
@@ -45,28 +46,29 @@ export default {
   name: 'AppHeader',
   data() {
     return {
-      user: ""
+      user: "",
+      leaves:[]
     }
   },
   created() {
-    axiosClient.get("/profile", {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-      }
-    }).then((res) => {
-      this.user = res.data;
-      }).catch(() => {
-
-    });
-
+    this.getProfile()
   },
-    
+
   methods: {
     logout() {
       localStorage.removeItem('token');
       this.$router.push('/login')
       window.location.reload()
-    }
+    },
+    getProfile() {
+      axiosClient.get("/profile", {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then((res) => {
+        this.user = res.data;
+      });
+    },
   }
 }
 </script>
