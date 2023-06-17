@@ -8,17 +8,17 @@
         <div class="row">
           <div class="col-md-4 mb-2">
             <form class="d-flex">
-              <input class="form-control me-2" v-model="kwName" type="search" placeholder="Nhập để tìm kiếm">
+              <input class="form-control me-2" type="search" placeholder="Nhập để tìm kiếm">
             </form>
           </div>
           <div class="col-md-4">
             <form class="d-flex mb-2">
-              <input v-model="kwDate" class="form-control me-2" type="date">
+              <input class="form-control me-2" type="date">
             </form>
           </div>
           <div class="col-md-4">
             <form class="d-flex">
-              <select class="form-control me-2" v-model="kwStatus">
+              <select class="form-control me-2">
                 <option>-- Chọn 1 option --</option>
                 <option value="1">Chấp thuận</option>
                 <option value="2">Từ chối</option>
@@ -38,15 +38,13 @@
               <th scope="col">Lý do</th>
               <th scope="col">Ngày bắt đầu</th>
               <th scope="col">Ngày kết thúc</th>
+              <th scope="col">Thời gian nghỉ(giờ)</th>
               <th scope="col">Trạng thái</th>
               <th scope="col">Lý do từ chối</th>
-              <th scope="col" v-if="this.roles.roles == '2' || this.roles.roles == '3'">Action</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
-            <!-- <tr>
-              <td colspan="10" v-if="leaves.length < 0">Chưa có bản ghi nào</td>
-            </tr> -->
             <tr v-for="leave in leaves">
               <th scope="row">{{ leave.id }}</th>
               <th scope="row">{{ leave.employees.name }}</th>
@@ -54,6 +52,7 @@
               <td>{{ leave.reason }}</td>
               <td>{{ leave.start_date }}</td>
               <td>{{ leave.end_date }}</td>
+              <td>{{ leave.estimate }}</td>
               <td>
                 <button type="button" class="btn btn-sm" style="min-width: 100px;"
                   :class="{ 'btn-warning': leave.status == 3, 'btn-success': leave.status == 1, 'btn-danger': leave.status == 2 }">
@@ -61,11 +60,15 @@
                 </button>
               </td>
               <td>{{ leave.comment }}</td>
-              <td v-if="this.roles.roles == '2' || this.roles.roles == '3'">
-                <router-link v-if="leave.status == 3" :to="{ name: 'edit-form', params: { id: leave.id } }">
+              <td v-if="leave.status == 2 || leave.status == 3">
+                <button class="btn btn-sm btn-success mb-2 me-1" v-if="this.roles.roles == 2 || this.roles.roles == 3">Duyệt</button>
+                <button class="btn btn-sm btn-warning mb-2 me-1" v-if="this.roles.roles == 2 || this.roles.roles == 3">Từ chối</button>
+                <router-link :to="{ name: 'edit-form', params: { id: leave.id } }"
+                  v-if="this.roles.roles == 2 || this.roles.roles == 3 || leave.employee_id == this.user_id">
                   <button class="btn btn-sm btn-primary mb-2 me-1">Sửa</button>
                 </router-link>
-                <button class="btn btn-sm btn-danger mb-2 me-1" v-if="leave.status == 3" @click="DeleteItem(leave.id)">Xoá</button>
+                <button class="btn btn-sm btn-danger mb-2 me-1" @click="DeleteItem(leave.id)"
+                  v-if="this.roles.roles == 2 || this.roles.roles == 3 || leave.employee_id == this.user_id">Xoá</button>
               </td>
             </tr>
           </tbody>
@@ -88,10 +91,11 @@ export default {
   },
   data() {
     return {
-      kwName: '',
-      kwStatus: '',
-      kwDate: ''
+      user_id: ''
     }
+  },
+  created() {
+    this.getCurrentUser()
   },
   methods: {
     validateInput(value) {
@@ -105,14 +109,26 @@ export default {
       else if (status == 2) { return 'Từ chối' }
       else return "Đang chờ"
     },
-    DeleteItem(id) {
-      axiosClient.delete('/leaves/' + id)
+    async DeleteItem(id) {
+      await axiosClient.delete('/leaves/' + id)
         .then(() => { this.$router.push('/manage') })
         .catch((error) => { console.log(error); })
     },
     getType(id) {
       const name = types.find((data) => data.id == id);
       return name ? name.name : "";
+    },
+    async getCurrentUser() {
+      await axiosClient.get('/profile', 
+      {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }
+      )
+        .then((res) => {
+          this.user_id = res.data.id
+        })
     },
   }
 }

@@ -8,8 +8,7 @@
       <div class="card-body py-5 px-md-5">
         <div class="row d-flex justify-content-center">
           <h2 class="fw-bold mb-5">Đăng Nhập</h2>
-          <Form>
-            <form @submit.prevent="handleSubmit">
+          <Form @submit="handleLogin">
               <div class="form-outline mb-4 form-group">
                 <Field type="email" name="email" v-model="email" placeholder="Email" class="form-control"
                   :rules="validateEmail" />
@@ -23,7 +22,6 @@
               <button type="submit" class="btn btn-primary mb-4">
                 Đăng Nhập
               </button>
-            </form>
           </Form>
         </div>
       </div>
@@ -50,7 +48,10 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    /**
+     * Login
+     */
+     handleLogin() {
       axios
         .post("http://127.0.0.1:8000/api/login", {
           email: this.email,
@@ -65,12 +66,20 @@ export default {
           console.log(error);
         });
     },
+
+    /***
+     * Register new User
+     */
     validateInput(value) {
       if (!value) {
         return 'This field is required';
       }
       return true
     },
+
+    /***
+     * Validate email
+     */
     validateEmail(value) {
       // if the field is empty
       if (!value) {
