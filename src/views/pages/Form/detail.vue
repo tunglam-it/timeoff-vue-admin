@@ -15,7 +15,7 @@ export default {
   components: { AppFooter, AppHeader, FormDetail },
   data() {
     return {
-      leaves: {},
+      leaves: [],
       token: localStorage.getItem('token'),
       roles:''
     }

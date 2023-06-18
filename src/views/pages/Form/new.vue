@@ -3,6 +3,7 @@
    <FormCreateEdit :form="form" :isInsert="checkParamId()" @insert="InsertForm">
       <h5>Thêm mới đơn xin nghỉ phép</h5>
    </FormCreateEdit>
+   {{ this.form }}
    <AppFooter />
 </template>
 
@@ -18,12 +19,12 @@ export default {
    data() {
       return {
          form: {
-            type: '',
-            reason: '',
-            start_date: '',
-            end_date: '',
-            employee_id: '',
-            employee: ''
+            type: null,
+            reason: null,
+            start_date: null,
+            end_date: null,
+            employee_id: null,
+            employee: null
          },
          token: localStorage.getItem('token')
       }
@@ -64,12 +65,12 @@ export default {
        * @returns mixed
        */
       InsertForm() {
-         axiosClient.post('/leaves',
+         axiosClient.post('/leaves',this.form,
             {
                headers: {
                   Authorization: 'Bearer ' + this.token
                }
-            }, this.form)
+            })
             .then((res) => {
                this.$router.push('/detail')
             })
