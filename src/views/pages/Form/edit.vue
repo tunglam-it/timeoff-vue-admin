@@ -3,6 +3,7 @@
    <FormCreateEdit :form="form" :isInsert="checkParamId()" @update="UpdateItem" :roles='roles'>
       <h5>Sửa đơn xin nghỉ phép</h5>
    </FormCreateEdit>
+   {{ this.form }}
    <AppFooter />
 </template>
  
@@ -57,13 +58,13 @@ export default {
        * @returns mixed
        */
       UpdateItem() {
-         axiosClient.put(`/leaves/${this.$route.params.id}`, 
+         axiosClient.put(`/leaves/${this.$route.params.id}`, this.form,
          {
             headers: {
-               Authorization: 'Bearer ' + localStorage.getItem('token')
+               Authorization: 'Bearer ' + this.token
             }
-         }, 
-         this.form)
+         }
+         )
             .then(() => { 
                this.$router.push('/detail') 
             })

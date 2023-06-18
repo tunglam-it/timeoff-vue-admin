@@ -61,13 +61,15 @@
               </td>
               <td>{{ leave.comment }}</td>
               <td v-if="leave.status == 2 || leave.status == 3">
-                <button class="btn btn-sm btn-success mb-2 me-1" v-if="this.roles.roles == 2 || this.roles.roles == 3">Duyệt</button>
-                <button class="btn btn-sm btn-warning mb-2 me-1" v-if="this.roles.roles == 2 || this.roles.roles == 3">Từ chối</button>
+                <button class="btn btn-sm btn-success mb-2 me-1" style="min-width: 65px;"
+                  v-if="this.roles.roles == 2 || this.roles.roles == 3">Duyệt</button>
+                <button class="btn btn-sm btn-warning mb-2 me-1" v-if="this.roles.roles == 2 || this.roles.roles == 3">Từ
+                  chối</button>
                 <router-link :to="{ name: 'edit-form', params: { id: leave.id } }"
                   v-if="this.roles.roles == 2 || this.roles.roles == 3 || leave.employee_id == this.user_id">
                   <button class="btn btn-sm btn-primary mb-2 me-1">Sửa</button>
                 </router-link>
-                <button class="btn btn-sm btn-danger mb-2 me-1" @click="DeleteItem(leave.id)"
+                <button class="btn btn-sm btn-danger mb-2 me-1" @click="confirmDelete(leave.id)"
                   v-if="this.roles.roles == 2 || this.roles.roles == 3 || leave.employee_id == this.user_id">Xoá</button>
               </td>
             </tr>
@@ -86,7 +88,7 @@ import axiosClient from '../../axiosClient.js';
 export default {
   components: { Field, Form, ErrorMessage },
   props: {
-    leaves: [],
+    leaves: {},
     roles: ''
   },
   data() {
@@ -109,9 +111,21 @@ export default {
       else if (status == 2) { return 'Từ chối' }
       else return "Đang chờ"
     },
-    async DeleteItem(id) {
-      await axiosClient.delete('/leaves/' + id)
-        .then(() => { this.$router.push('/manage') })
+    confirmDelete(id) {
+      if (confirm('Bạn có chắc chắn muốn xoá không?')) {
+        this.DeleteItem(id)
+      }
+    },
+    DeleteItem(id) {
+      axiosClient.delete('/leaves/' + id,
+        {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          }
+        })
+        .then(() => {
+          window.location.reload()
+        })
         .catch((error) => { console.log(error); })
     },
     getType(id) {
@@ -119,12 +133,12 @@ export default {
       return name ? name.name : "";
     },
     async getCurrentUser() {
-      await axiosClient.get('/profile', 
-      {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
+      await axiosClient.get('/profile',
+        {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          }
         }
-      }
       )
         .then((res) => {
           this.user_id = res.data.id
