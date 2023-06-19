@@ -1,21 +1,16 @@
 <template>
-   <AppHeader />
    <FormCreateEdit :form="form" :isInsert="checkParamId()" @update="UpdateItem" :roles='roles'>
       <h5>Sửa đơn xin nghỉ phép</h5>
    </FormCreateEdit>
-   {{ this.form }}
-   <AppFooter />
 </template>
  
 <script>
-import AppFooter from '../../../components/AppFooter.vue';
-import AppHeader from '../../../components/AppHeader.vue';
 import FormCreateEdit from '../../../components/Form/FormCreateEdit.vue';
 import axiosClient from '../../../axiosClient.js';
 
 export default {
    name: 'EditForm',
-   components: { FormCreateEdit, AppFooter, AppHeader },
+   components: { FormCreateEdit },
    data() {
       return {
          form: {},
@@ -64,8 +59,7 @@ export default {
                Authorization: 'Bearer ' + this.token
             }
          }
-         )
-            .then(() => { 
+         ).then(() => { 
                this.$router.push('/detail') 
             })
             .catch((error) => console.log(error))
@@ -86,5 +80,3 @@ export default {
    }
 }
 </script>
- 
-<style></style>

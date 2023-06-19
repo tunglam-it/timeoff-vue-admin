@@ -7,7 +7,8 @@ import DetailForm from '../src/views/pages/Form/detail.vue';
 import Dashboard from './layouts/Dashboard.vue'
 import UserManage from "../src/views/pages/Form/manage.vue";
 import ManageRoles from '../src/components/Admin/ManageRoles.vue'
-import InfoAccount from "../src/views/pages/info.vue";
+import InfoAccount from "../src/views/pages/Account/info.vue";
+
 const isAuthenticated = window.localStorage.getItem('token')
 const routes = [
     {

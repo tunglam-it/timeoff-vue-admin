@@ -39,19 +39,19 @@
     </div>
   </section>
   <!-- Section: Block Form -->
-  <AppFooter />
 </template>
 
 <script>
 import AuthHeader from "../components/Auth/AuthHeader.vue";
 import { Field, Form, ErrorMessage } from 'vee-validate';
-import AppFooter from "../components/AppFooter.vue";
-import axios from "axios";
+import axiosClient from "../axiosClient";
+import validateMixin from "../mixins/validateMixin.js";
 
 export default {
+  mixins:[validateMixin],
   name: 'Register',
   components: {
-    AppFooter, AuthHeader, Field, Form, ErrorMessage
+    AuthHeader, Field, Form, ErrorMessage
   },
   data() {
     return {
@@ -76,7 +76,7 @@ export default {
         alert('Passwords must match');
         return;
       }
-      axios.post("http://127.0.0.1:8000/api/register", {
+      axiosClient.post("/register", {
         email: this.email,
         name: this.name,
         password: this.password
@@ -85,40 +85,6 @@ export default {
         this.$router.push('/login')
       })
     },
-
-    /***
-     * Validate email
-     */
-    validateEmail(value) {
-      // if the field is empty
-      if (!value) {
-        return 'This field is required';
-      }
-      // if the field is not a valid email
-      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-      if (!regex.test(value)) {
-        return 'This field must be a valid email';
-      }
-      // All is good
-      return true;
-    },
-
-    /**
-     * Validate input value
-     * @param value 
-     */
-    validateInput(value) {
-      if (!value) {
-        return 'This field is required';
-      }
-      return true
-    },
-    validateConfirmPassword(value) {
-      if (!value) {
-        return 'This field is required';
-      }
-      return true
-    }
   }
 }
 </script>

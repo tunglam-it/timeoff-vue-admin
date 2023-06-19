@@ -17,7 +17,10 @@
           </li>
           <li class="nav-item">
             <router-link class="nav-link active text-white ms-3" to="/detail">
-              Chi tiết
+              Tất cả đơn
+              <span class="badge text-bg-warning">
+                {{ this.count }}
+              </span>
             </router-link>
           </li>
           <li class="nav-item">
@@ -32,6 +35,7 @@
           </div>
           <ul class="dropdown-menu position-absolute position-left-25">
             <li><router-link class="dropdown-item" to="/info">Thông tin tài khoản</router-link></li>
+            <!-- <li><router-link class="dropdown-item" to="/info-leaves">Thông tin nghỉ phép</router-link></li> -->
             <li><router-link class="dropdown-item" @click="logout" to="#">Đăng xuất</router-link></li>
           </ul>
         </div>
@@ -47,19 +51,28 @@ export default {
   data() {
     return {
       user: "",
-      leaves:[]
+      leaves: [],
+      count:0
     }
   },
   created() {
-    this.getProfile()
+    this.getProfile(), 
+    this.countPendingLeaves()
   },
 
   methods: {
+    /**
+     * logout
+     */
     logout() {
       localStorage.removeItem('token');
       this.$router.push('/login')
       window.location.reload()
     },
+
+    /**
+     * get current user
+     */
     getProfile() {
       axiosClient.get("/profile", {
         headers: {
@@ -69,6 +82,20 @@ export default {
         this.user = res.data;
       });
     },
+
+    /**
+     * count number of pending leaves
+     */
+    countPendingLeaves(){
+      axiosClient.get('/leaves',{
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then((res)=>{
+        this.leaves = res.data.data
+        this.count = this.leaves.filter((leave) => leave.status == 3).length;
+      })
+    }
   }
 }
 </script>

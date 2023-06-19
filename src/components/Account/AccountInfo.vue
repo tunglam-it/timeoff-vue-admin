@@ -47,8 +47,11 @@
 
 <script>
 import { Field, Form, ErrorMessage } from 'vee-validate';
-import axios from "axios";
+import axiosClient from '../../axiosClient';
+import validateMixin from '../../mixins/validateMixin.js';
+
 export default {
+  mixins:[validateMixin],
   components: { Field, Form, ErrorMessage },
   data() {
     return {
@@ -59,38 +62,42 @@ export default {
     }
   },
   created() {
-    axios.get("http://127.0.0.1:8000/api/profile", {
-      headers: {
-        Authorization: 'Bearer ' + localStorage.getItem('token')
-        // Thêm khoảng trắng giữa 'Bearer' và token
-      }
-    }).then((res) => {
-      this.user.name = res.data.name;
-      this.user.email = res.data.email;
-    }).catch(() => {
-      localStorage.removeItem('token');
-      this.$router.push('/login')
-      location.reload();
-    });
+    this.getUser()
   },
   methods: {
+
+    /**
+     * get name & email of current user
+     */
+    getUser() {
+      axiosClient.get("/profile", {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then((res) => {
+        this.user.name = res.data.name;
+        this.user.email = res.data.email;
+      }).catch(() => {
+        localStorage.removeItem('token');
+        this.$router.push('/login')
+        location.reload();
+      });
+    },
+
+    /**
+     * submit to change password
+     */
     submit() {
-      axios.post("http://127.0.0.1:8000/api/change", this.user, {
+      axiosClient.post("/change", this.user, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       }).then(() => {
-        console.log('Change password successfully');
-      }).catch(() => {
-        console.log('Change password failed');
+        this.$router.push('/')
+      }).catch((err) => {
+        console.log(err);
       });
     },
-    validateInput(value) {
-      if (!value) {
-        return 'This field is required';
-      }
-      return true
-    }
   }
 }
 </script>

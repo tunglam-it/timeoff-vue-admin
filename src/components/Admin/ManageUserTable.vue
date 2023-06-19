@@ -9,7 +9,7 @@
           <div class="col-md-6 mb-2">
             <form class="d-flex" role="search">
               <input class="form-control me-2" v-model="query" type="search" placeholder="Nhập tên để tìm kiếm"
-                @change="SearchBlog" aria-label="Search">
+                @change="SearchUser" aria-label="Search">
             </form>
           </div>
         </div>
@@ -21,19 +21,21 @@
               <th scope="col">ID</th>
               <th scope="col">Tên nhân viên</th>
               <th scope="col">Chức vụ</th>
+              <th scope="col">Thời gian nghỉ(giờ)</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="form in forms">
-              <th scope="row">{{ form.id }}</th>
-              <td>{{ form.name }}</td>
-              <td>{{ convert(form.roles) }}</td>
+            <tr v-for="user in users">
+              <th scope="row">{{ user.id }}</th>
+              <td>{{ user.name }}</td>
+              <td>{{ convert(user.roles) }}</td>
+              <td>{{ user.total_time }}</td>
               <td>
-                <router-link :to="{ name: 'manage-user-role', params: { id: form.id } }">
+                <router-link :to="{ name: 'manage-user-role', params: { id: user.id } }">
                   <button class="btn btn-sm me-2 btn-primary">Sửa</button>
                 </router-link>
-                <button class="btn btn-sm btn-danger" @click="DeleteUser(form.id)">Xoá</button>
+                <button class="btn btn-sm btn-danger" @click="confirmDelete(user.id)">Xoá</button>
               </td>
             </tr>
           </tbody>
@@ -41,24 +43,23 @@
       </div>
     </div>
   </div>
-  {{ this.forms }}
 </template>
 
 <script>
 import axiosClient from '../../axiosClient';
-import AppFooter from '../AppFooter.vue';
-import AppHeader from '../AppHeader.vue';
 
 export default {
+  props:{
+      users: {},
 
-  components: { AppHeader, AppFooter },
+  },
   data() {
     return {
-      forms: [],
+      query: ''
     }
   },
   created() {
-      this.searchBlog()
+    this.SearchUser()
   },
   methods: {
 
@@ -71,24 +72,28 @@ export default {
       if (role == '1') {
         return 'Nhân viên'
       }
-      else if(role == '2') {
+      else if (role == '2') {
         return 'Quản lý'
       }
     },
     /**
-     * searchBlog
+     * call emits to search users
      * @params query
      * @returns array
      */
-    searchBlog(query = "") {
-      axiosClient
-        .get(`/get-users?param=${query}`, {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-      })
-        .then((res) => (this.forms = res.data.data))
-        .catch((err) => console.log(err));
+  
+    SearchUser(){
+      this.$emit('searchUser',this.query)
+    },
+
+    /**
+     * confirm before delete Leave
+     * @param id 
+     */
+    confirmDelete(id) {
+      if (confirm('Bạn có chắc chắn muốn xoá không?')) {
+        this.DeleteUser(id)
+      }
     },
 
     /**
@@ -102,7 +107,7 @@ export default {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       })
-        .then(() => this.$router.push('/manage'))
+        .then(() => window.location.reload())
         .catch((err) => console.log(err))
     },
   }

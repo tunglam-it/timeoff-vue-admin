@@ -44,3 +44,9 @@ body,html{
 .h-150{
   min-height: 150px;
 }
+.mw-100{
+  min-width: 100px
+}
+.mw-65{
+  min-width: 65px
+}
