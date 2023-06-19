@@ -54,8 +54,10 @@
 <script>
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import types from '../../leave_types/types.js';
+import validateMixin from '../../mixins/validateMixin.js';
 
 export default {
+  mixins:[validateMixin],
   components: { Field, Form, ErrorMessage },
   props: {
     form: {},
@@ -68,18 +70,6 @@ export default {
     }
   },
   methods: {
-    /***
-     * validate for input value
-     * @param value
-     * @returns boolean
-     */
-    validateInput(value) {
-      if (!value) {
-        return 'This field is required';
-      }
-      return true
-    },
-
     /***
      * insert or update data for form
      * @returns mixed

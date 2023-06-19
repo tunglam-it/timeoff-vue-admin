@@ -1,21 +1,16 @@
 <template>
-   <AppHeader />
    <FormCreateEdit :form="form" :isInsert="checkParamId()" @insert="InsertForm">
       <h5>Thêm mới đơn xin nghỉ phép</h5>
    </FormCreateEdit>
-   {{ this.form }}
-   <AppFooter />
 </template>
 
 <script>
-import AppFooter from '../../../components/AppFooter.vue';
-import AppHeader from '../../../components/AppHeader.vue';
 import FormCreateEdit from '../../../components/Form/FormCreateEdit.vue';
 import axiosClient from '../../../axiosClient.js';
 
 export default {
    name: 'CreateForm',
-   components: { FormCreateEdit, AppFooter, AppHeader },
+   components: { FormCreateEdit },
    data() {
       return {
          form: {
@@ -48,16 +43,16 @@ export default {
        * get logged in user information
        * @returns mixed
        */
-      getUser(){
+      getUser() {
          axiosClient.get('/profile', {
-         headers: {
-            Authorization: 'Bearer ' + this.token
-         }
-      })
-         .then((res) => {
-            this.form.employee = res.data.name
-            this.form.employee_id = res.data.id
+            headers: {
+               Authorization: 'Bearer ' + this.token
+            }
          })
+            .then((res) => {
+               this.form.employee = res.data.name
+               this.form.employee_id = res.data.id
+            })
       },
 
       /**
@@ -65,13 +60,13 @@ export default {
        * @returns mixed
        */
       InsertForm() {
-         axiosClient.post('/leaves',this.form,
-            {
-               headers: {
-                  Authorization: 'Bearer ' + this.token
-               }
-            })
-            .then((res) => {
+         axiosClient.post('/leaves', this.form,{
+            headers: {
+               Authorization: 'Bearer ' + this.token
+            }
+         }
+         )
+            .then(() => {
                this.$router.push('/detail')
             })
             .catch((error) => {
