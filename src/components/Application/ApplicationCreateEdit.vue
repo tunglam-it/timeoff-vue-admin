@@ -69,13 +69,21 @@ export default {
       types: types,
     }
   },
+  watch:{
+    startTime: function (){
+      this.calculateTimeOff()
+    },
+    endTime: function (){
+      this.calculateTimeOff()
+    }
+  },
   methods: {
     /***
      * insert or update data for form
      * @returns mixed
      */
     handleSubmit() {
-      if (this.isInsert) {
+      if (this.isInsert==true) {
         this.$emit("insert", this.form);
       } else {
         this.$emit("update", this.form);

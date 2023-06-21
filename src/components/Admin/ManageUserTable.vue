@@ -9,7 +9,7 @@
           <div class="col-md-6 mb-2">
             <form class="d-flex" role="search">
               <input class="form-control me-2" v-model="query" type="search" placeholder="Nhập tên để tìm kiếm"
-                @change="SearchUser" aria-label="Search">
+                @change="searchUser" aria-label="Search">
             </form>
           </div>
         </div>
@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import axiosClient from '../../axiosClient';
-
 export default {
   props:{
       users: {},
@@ -59,7 +57,7 @@ export default {
     }
   },
   created() {
-    this.SearchUser()
+    this.searchUser()
   },
   methods: {
 
@@ -82,7 +80,8 @@ export default {
      * @returns array
      */
   
-    SearchUser(){
+    searchUser(){
+      
       this.$emit('searchUser',this.query)
     },
 
@@ -91,25 +90,9 @@ export default {
      * @param id 
      */
     confirmDelete(id) {
-      if (confirm('Bạn có chắc chắn muốn xoá không?')) {
-        this.DeleteUser(id)
-      }
+      this.$emit('confirmDelete',id);
     },
 
-    /**
-     * call api to delete user
-     * @param id 
-     * @returns mixed
-     */
-    DeleteUser(id) {
-      axiosClient.delete('/delete/' + id, {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-      })
-        .then(() => window.location.reload())
-        .catch((err) => console.log(err))
-    },
   }
 }
 </script>

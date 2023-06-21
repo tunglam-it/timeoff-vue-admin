@@ -7,29 +7,21 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-3 mb-2">
-            <form class="d-flex">
-              <input class="form-control me-2" v-model="query" type="search" @change="SearchInfo" placeholder="Nhập để tìm kiếm">
-            </form>
+              <input class="form-control me-2" v-model="query" type="search" @change="searchInfo" placeholder="Nhập để tìm kiếm">
           </div>
-          <div class="col-md-3">
-            <form class="d-flex mb-2">
-              <input class="form-control me-2" v-model="start_date" type="date" @change="SearchInfo">
-            </form>
+          <div class="col-md-3 mb-2">
+              <input class="form-control me-2" v-model="start_date" type="date" @change="searchInfo">
           </div>
-          <div class="col-md-3">
-            <form class="d-flex mb-2">
-              <input class="form-control me-2" v-model="end_date" type="date" @change="SearchInfo">
-            </form>
+          <div class="col-md-3 mb-2">
+              <input class="form-control me-2" v-model="end_date" type="date" @change="searchInfo">
           </div>
-          <div class="col-md-3">
-            <form class="d-flex">
-              <select class="form-control me-2" v-model="status" @change="SearchInfo">
+          <div class="col-md-3 mb-2">
+              <select class="form-control me-2" v-model="status" @change="searchInfo">
                 <option>-- Chọn 1 option --</option>
                 <option value="1">Chấp thuận</option>
                 <option value="2">Từ chối</option>
                 <option value="3">Đang chờ</option>
               </select>
-            </form>
           </div>
         </div>
       </div>
@@ -38,45 +30,47 @@
           <thead>
             <tr>
               <th scope="col">ID</th>
-              <th scope="col">Người tạo</th>
-              <th scope="col">Loại</th>
-              <th scope="col">Lý do</th>
+              <th scope="col" class="text-start">Người tạo</th>
+              <th scope="col" class="text-start">Loại</th>
+              <th scope="col" class="text-start">Lý do</th>
               <th scope="col">Ngày bắt đầu</th>
               <th scope="col">Ngày kết thúc</th>
               <th scope="col">Thời gian nghỉ(giờ)</th>
               <th scope="col">Trạng thái</th>
-              <th scope="col">Lý do từ chối</th>
+              <th scope="col" class="text-start">Lý do từ chối</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="leave in leaves">
               <th scope="row">{{ leave.id }}</th>
-              <th scope="row">{{ leave.employees.name }}</th>
-              <td>{{ getType(leave.type) }}</td>
-              <td>{{ leave.reason }}</td>
+              <th scope="row" class="text-start">{{ leave.employees.name }}</th>
+              <td class="text-start">{{ getType(leave.type) }}</td>
+              <td class="text-start">{{ leave.reason }}</td>
               <td>{{ leave.start_date }}</td>
               <td>{{ leave.end_date }}</td>
               <td>{{ leave.estimate }}</td>
               <td>
-                <button type="button" class="btn btn-sm mw-100"
-                  :class="{ 'btn-warning': leave.status == 3, 'btn-success': leave.status == 1, 'btn-danger': leave.status == 2 }">
-                  <span class="text-white fw-bold">{{ checkStatus(leave.status) }}</span>
-                </button>
+                <div class="alert" :class="{ 'alert-warning': leave.status == 3, 'alert-success': leave.status == 1, 'alert-danger': leave.status == 2 }" role="alert">
+                  {{ getStatusName(leave.status) }}
+                </div>
               </td>
-              <td>{{ leave.comment }}</td>
-              <td v-if="leave.status == 3">
-                <button class="btn btn-sm btn-success mb-2 me-1 mw-65" @click="approveLeave(leave.id,leave.employee_id)"
+              <td class="text-start">{{ leave.comment }}</td>
+              <td >
+                <div v-if="leave.status == 3">
+                  <button class="btn btn-sm btn-success mb-2 me-1 mw-65" @click="approveLeave(leave.id,leave.employee_id)"
                   v-if="this.roles.roles == 2 || this.roles.roles == 3">Duyệt</button>
                 <button type="button" class="btn btn-sm btn-warning mb-2 me-1" data-bs-toggle="modal" data-bs-target="#exampleModal" 
                   v-if="this.roles.roles == 2 || this.roles.roles == 3" @click="openModal(leave)">
                   Từ chối</button>
-                <router-link :to="{ name: 'edit-form', params: { id: leave.id } }"
+                <router-link :to="{ name: 'edit-application', params: { id: leave.id } }"
                   v-if="this.roles.roles == 2 || this.roles.roles == 3 || leave.employee_id == this.user_id">
                   <button class="btn btn-sm btn-primary mb-2 me-1">Sửa</button>
                 </router-link>
                 <button class="btn btn-sm btn-danger mb-2 me-1" @click="confirmDelete(leave.id)"
                   v-if="this.roles.roles == 2 || this.roles.roles == 3 || leave.employee_id == this.user_id">Xoá</button>
+                </div>
+                
               </td>
             </tr>
           </tbody>
@@ -94,8 +88,8 @@
       <div class="modal-body">
         <form>
           <div class="mb-3">
-            <label for="message-text" class="col-form-label">Lý do từ chối:</label>
-            <textarea v-model="comment" class="form-control" id="message-text"></textarea>
+            <label class="col-form-label">Lý do từ chối:</label>
+            <textarea v-model="comment" class="form-control"></textarea>
           </div>
         </form>
       </div>
@@ -110,12 +104,10 @@
 </template>
 
 <script>
-import { Field, Form, ErrorMessage } from 'vee-validate';
 import types from '../../leave_types/types.js';
 import axiosClient from '../../axiosClient.js';
 
 export default {
-  components: { Field, Form, ErrorMessage },
   props: {
     leaves: {},
     roles: ''
@@ -151,13 +143,7 @@ export default {
      * @param employee_id 
      */
     approveLeave(id,employee_id) {
-      axiosClient.put('/leaves/' + id, {status:1,employee_id:employee_id},{
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
-        }
-      ).then(()=>{window.location.reload()})
-      .catch((err)=>console.log(err))
+      this.$emit('approveLeave',id,employee_id)
     },
 
     /**
@@ -165,16 +151,7 @@ export default {
      * @param  id 
      */
     rejectLeave(id) {
-      axiosClient.put('/leaves/' + id,{status:2, comment:this.comment},{
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
-        }
-      ).then(()=>{
-        this.showModal = false
-        window.location.reload()
-      })
-      .catch((err)=>console.log(err))
+      this.$emit('rejectLeave', id)
     },
 
     /**
@@ -182,7 +159,7 @@ export default {
      * @param status
      * @returns string 
      */
-    checkStatus(status) {
+    getStatusName(status) {
       if (status == 1) { return "Chấp thuận" }
       else if (status == 2) { return 'Từ chối' }
       else return "Đang chờ"
@@ -193,26 +170,7 @@ export default {
      * @param id 
      */
     confirmDelete(id) {
-      if (confirm('Bạn có chắc chắn muốn xoá không?')) {
-        this.DeleteItem(id)
-      }
-    },
-
-    /**
-     * call api to delete leave
-     * @param id 
-     */
-    DeleteItem(id) {
-      axiosClient.delete('/leaves/' + id,
-        {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token')
-          }
-        })
-        .then(() => {
-          window.location.reload()
-        })
-        .catch((error) => { console.log(error); })
+      this.$emit('confirmDelete',id)
     },
 
     /**
@@ -243,7 +201,7 @@ export default {
     /**
      * call emit 
      */
-    SearchInfo(){
+    searchInfo(){
       this.$emit('searchInfo', this.query, this.start_date, this.end_date, this.status);
     }
   }

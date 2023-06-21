@@ -15,6 +15,8 @@ import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./router.js";
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 dom.watch();
 
 const app = createApp(App)
@@ -22,4 +24,5 @@ const app = createApp(App)
 app.use(router);
 app.component("font-awesome-icon", FontAwesomeIcon)
 app.use(BootstrapVueNext);
+app.use(VueSweetalert2);
 app.mount('#app');
