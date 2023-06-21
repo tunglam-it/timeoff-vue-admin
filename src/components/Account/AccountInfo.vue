@@ -77,10 +77,6 @@ export default {
       }).then((res) => {
         this.user.name = res.data.name;
         this.user.email = res.data.email;
-      }).catch(() => {
-        localStorage.removeItem('token');
-        this.$router.push('/login')
-        location.reload();
       });
     },
 
@@ -88,15 +84,7 @@ export default {
      * submit to change password
      */
     submit() {
-      axiosClient.post("/change", this.user, {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-        }
-      }).then(() => {
-        this.$router.push('/')
-      }).catch((err) => {
-        console.log(err);
-      });
+      this.$emit('submit', this.user)
     },
   }
 }

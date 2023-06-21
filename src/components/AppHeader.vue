@@ -13,10 +13,10 @@
             <router-link class="nav-link active text-white ms-3" to="/">Trang chủ</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active text-white ms-3" to="/create-form">Thêm mới</router-link>
+            <router-link class="nav-link active text-white ms-3" to="/create-application">Thêm mới</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active text-white ms-3" to="/detail">
+            <router-link class="nav-link active text-white ms-3" to="/list">
               Tất cả đơn
               <span class="badge text-bg-warning">
                 {{ this.count }}
@@ -24,8 +24,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link v-if="this.user.roles == 3" class="nav-link active text-white ms-3" to="/manage">Quản
-              lý</router-link>
+            <router-link v-if="this.user.roles == 3" class="nav-link active text-white ms-3" to="/manage">Quản lý</router-link>
           </li>
         </ul>
 
@@ -35,7 +34,7 @@
           </div>
           <ul class="dropdown-menu position-absolute position-left-25">
             <li><router-link class="dropdown-item" to="/info">Thông tin tài khoản</router-link></li>
-            <!-- <li><router-link class="dropdown-item" to="/info-leaves">Thông tin nghỉ phép</router-link></li> -->
+            <li><router-link class="dropdown-item" to="/list-appli-user">Thông tin nghỉ phép</router-link></li>
             <li><router-link class="dropdown-item" @click="logout" to="#">Đăng xuất</router-link></li>
           </ul>
         </div>
@@ -65,8 +64,8 @@ export default {
      * logout
      */
     logout() {
-      localStorage.removeItem('token');
-      this.$router.push('/login')
+      localStorage.removeItem('token')
+      this.$router.push({path:'/login'})
       window.location.reload()
     },
 

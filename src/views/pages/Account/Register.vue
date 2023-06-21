@@ -42,10 +42,10 @@
 </template>
 
 <script>
-import AuthHeader from "../components/Auth/AuthHeader.vue";
+import AuthHeader from "../../../components/Auth/AuthHeader.vue";
 import { Field, Form, ErrorMessage } from 'vee-validate';
-import axiosClient from "../axiosClient";
-import validateMixin from "../mixins/validateMixin.js";
+import axiosClient from "../../../axiosClient";
+import validateMixin from "../../../mixins/validateMixin.js";
 
 export default {
   mixins:[validateMixin],
@@ -73,15 +73,14 @@ export default {
      */
     handleRegister() {
       if (this.passwordMatchError) {
-        alert('Passwords must match');
-        return;
+        return 'Passwords must match';
       }
       axiosClient.post("/register", {
         email: this.email,
         name: this.name,
         password: this.password
 
-      }).then(response => {
+      }).then(() => {
         this.$router.push('/login')
       })
     },

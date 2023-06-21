@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Register from './views/Register.vue';
-import Login from './views/Login.vue';
-import CreateForm from '../src/views/pages/Form/new.vue';
-import EditForm from '../src/views/pages/Form/edit.vue';
-import DetailForm from '../src/views/pages/Form/detail.vue';
+import Register from './views/pages/Account/Register.vue';
+import Login from './views/pages/Account/Login.vue';
+import CreateApplication from '../src/views/pages/Application/new.vue';
+import EditApplication from '../src/views/pages/Application/edit.vue';
+import ListApplication from '../src/views/pages/Application/index.vue';
 import Dashboard from './layouts/Dashboard.vue'
-import UserManage from "../src/views/pages/Form/manage.vue";
+import UserManage from "./views/pages/Account/manage.vue";
 import ManageRoles from '../src/components/Admin/ManageRoles.vue'
 import InfoAccount from "../src/views/pages/Account/info.vue";
+import ListApplicationUser from "../src/views/pages/Account/list.vue";
 
 const isAuthenticated = window.localStorage.getItem('token')
 const routes = [
@@ -28,19 +29,19 @@ const routes = [
     },
 
     {
-        path: '/create-form',
-        name: 'create-form',
-        component: isAuthenticated ? CreateForm :Login
+        path: '/create-application',
+        name: 'create-application',
+        component: isAuthenticated ? CreateApplication :Login
     },
     {
-        path: '/edit-form/:id',
-        name: 'edit-form',
-        component: isAuthenticated ? EditForm :Login
+        path: '/edit-application/:id',
+        name: 'edit-application',
+        component: isAuthenticated ? EditApplication :Login
     },
     {
-        path: '/detail',
-        name: 'detail',
-        component: isAuthenticated ? DetailForm : Login
+        path: '/list',
+        name: 'list',
+        component: isAuthenticated ? ListApplication : Login
     },
     {
         path: '/manage',
@@ -56,6 +57,11 @@ const routes = [
         path: '/info',
         name: 'account-info',
         component: isAuthenticated ? InfoAccount : Login
+    },
+    {
+        path: '/list-appli-user',
+        name: 'list-appli-user',
+        component: isAuthenticated ? ListApplicationUser : Login
     }
 ];
 
