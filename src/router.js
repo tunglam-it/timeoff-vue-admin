@@ -6,7 +6,7 @@ import EditApplication from '../src/views/pages/Application/edit.vue';
 import ListApplication from '../src/views/pages/Application/index.vue';
 import Dashboard from './layouts/Dashboard.vue'
 import UserManage from "./views/pages/Account/manage.vue";
-import ManageRoles from '../src/components/Admin/ManageRoles.vue'
+import AdminRoles from '../src/components/Admin/AdminRoles.vue'
 import InfoAccount from "../src/views/pages/Account/info.vue";
 import ListApplicationUser from "../src/views/pages/Account/list.vue";
 
@@ -51,7 +51,7 @@ const routes = [
     {
         path: '/manage/:id',
         name: 'manage-user-role',
-        component: isAuthenticated ? ManageRoles : Login
+        component: isAuthenticated ? AdminRoles : Login
     },
     {
         path: '/info',

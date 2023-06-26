@@ -44,7 +44,7 @@
           <tbody>
             <tr v-for="leave in leaves">
               <th scope="row">{{ leave.id }}</th>
-              <th scope="row" class="text-start">{{ leave.employees.name }}</th>
+              <th scope="row" class="text-start">{{ leave.employees ? leave.employees.name : 'Unknown' }}</th>
               <td class="text-start">{{ getType(leave.type) }}</td>
               <td class="text-start">{{ leave.reason }}</td>
               <td>{{ leave.start_date }}</td>

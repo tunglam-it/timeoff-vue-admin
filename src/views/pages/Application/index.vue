@@ -1,5 +1,6 @@
 <template>
-  <ApplicationList @approveLeave="approveLeave" @rejectLeave="rejectLeave" :leaves="leaves" :roles="roles" @searchInfo="getAllLeaves" @confirmDelete="confirmDelete"/>
+  <ApplicationList @approveLeave="approveLeave" @rejectLeave="rejectLeave" :leaves="leaves" :roles="roles"
+    @searchInfo="getAllLeaves" @confirmDelete="confirmDelete" />
 </template>
 
 <script>
@@ -8,7 +9,7 @@ import axiosClient from '../../../axiosClient.js';
 
 export default {
   name: 'ListApplication',
-  components: {ApplicationList},
+  components: { ApplicationList },
   data() {
     return {
       leaves: [],
@@ -35,12 +36,12 @@ export default {
           Authorization: 'Bearer ' + this.token
         }
       })
-          .then((res) => {
-            this.leaves = res.data.data;
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+        .then((res) => {
+          this.leaves = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     },
 
     /***
@@ -52,9 +53,10 @@ export default {
           Authorization: 'Bearer ' + this.token
         }
       })
-          .then((res) => {
-            this.roles = res.data
-          })
+        .then((res) => {
+          this.roles = res.data
+          console.log(res.data);
+        })
     },
     /**
      * confirm before delete Leave
@@ -72,24 +74,24 @@ export default {
      */
     deleteItem(id) {
       axiosClient.delete('/leaves/' + id,
-          {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-          })
-          .then(() => {
-            this.searchInfo()
-          })
-          .catch((error) => { console.log(error); })
-    },
-    approveLeave(id,employee_id) {
-      axiosClient.put('/leaves/' + id, {status:1,employee_id:employee_id},{
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
+        {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
           }
-      ).then(()=>{this.searchInfo()})
-          .catch((err)=>console.log(err))
+        })
+        .then(() => {
+          this.searchInfo()
+        })
+        .catch((error) => { console.log(error); })
+    },
+    approveLeave(id, employee_id) {
+      axiosClient.put('/leaves/' + id, { status: 1, employee_id: employee_id }, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }
+      ).then(() => { this.searchInfo() })
+        .catch((err) => console.log(err))
     },
 
     /**
@@ -97,16 +99,16 @@ export default {
      * @param  id
      */
     rejectLeave(id) {
-      axiosClient.put('/leaves/' + id,{status:2, comment:this.comment},{
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-          }
-      ).then(()=>{
+      axiosClient.put('/leaves/' + id, { status: 2, comment: this.comment }, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }
+      ).then(() => {
         this.showModal = false
         this.searchInfo()
       })
-          .catch((err)=>console.log(err))
+        .catch((err) => console.log(err))
     },
 
   }

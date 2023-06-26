@@ -75,7 +75,7 @@ export default {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
       }).then((res) => {
-        this.leaves = res.data.data
+        this.leaves = res.data
         this.pending = this.leaves.filter((leave) => leave.status == 3).length
         this.reject = this.leaves.filter((leave) => leave.status == 2).length
         this.approve = this.leaves.filter((leave) => leave.status == 1).length
