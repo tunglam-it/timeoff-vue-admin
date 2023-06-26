@@ -1,15 +1,15 @@
 <template>
-    <ManageUserTable @searchUser="searchUser" :users="users" @confirmDelete="confirmDelete"/>
+    <AdminUserTable @searchUser="searchUser" :users="users" @confirmDelete="confirmDelete"/>
 </template>
 
 <script>
-import ManageUserTable from "../../../components/Admin/ManageUserTable.vue";
+import AdminUserTable from "../../../components/Admin/AdminUserTable.vue";
 import axiosClient from "../../../axiosClient.js";
 
 export default {
   name: 'UserManage',
   components: {
-    ManageUserTable
+    AdminUserTable
   },
   data(){
     return {
@@ -30,7 +30,8 @@ export default {
               Authorization: 'Bearer ' + localStorage.getItem('token')
             }
           })
-        .then((res) => (this.users = res.data))
+        .then((res) => (
+          this.users = res.data))
         .catch((err) => console.log(err));
     },
     /**

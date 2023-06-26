@@ -12,7 +12,7 @@
             <div class="form-outline mb-4 form-group">
               <Field type="email" name="email" v-model="email" placeholder="Email" class="form-control"
                  />
-<!--              <ErrorMessage name="email" class="danger text-danger" />-->
+             <ErrorMessage name="email" class="danger text-danger" />
             </div>
             <div class="form-outline mb-4 form-group">
               <Field type="password" name="password" v-model="password" placeholder="Password" class="form-control"

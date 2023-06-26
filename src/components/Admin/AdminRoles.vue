@@ -45,7 +45,7 @@ import validateMixin from '../../mixins/validateMixin.js';
 
 export default {
   mixins:[validateMixin],
-  name: 'ManageRoles',
+  name: 'AdminRoles',
   components: { Field, Form, ErrorMessage },
   data() {
     return {
